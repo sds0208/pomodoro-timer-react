@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
 import './timer.css';
-
+import buzz from 'buzz';
+import './Ding.wav';
 
 class Timer extends Component {
   constructor(props) {
     super(props);
     this.state = { workTime: 1500, breakTime: 300, onBreak: false, onLongBreak: false, working: false, workSessionCount: 1 };
+    this.sound = new buzz.sound('./Ding.wav', { preload: true });
+    this.sound.setVolume(100);
+    this.play = this.play.bind(this);
   }
 
   componentDidMount() {
@@ -14,9 +18,11 @@ class Timer extends Component {
 
   componentWillUpdate(nextProps, nextState) {
     if (this.state.workTime === 1) {
+      this.sound.play();
       this.stopWorkCountdown();
     }
     if (this.state.breakTime === 1) {
+      this.sound.play();
       this.stopBreakCountdown();
       this.resetWorkCountdown();
     }
@@ -24,7 +30,7 @@ class Timer extends Component {
 
   workCountdown(workTime) {
     if (this.state.workTime > 0) {
-      this.workInterval = setInterval(() => this.setState({ workTime: this.state.workTime - 1 }), 1000);
+      this.workInterval = setInterval(() => this.setState({ workTime: this.state.workTime - 1 }), .25);
     }
   }
 
@@ -39,7 +45,7 @@ class Timer extends Component {
 
   breakCountdown(breakTime) {
     if (this.state.breakTime > 0) {
-      this.breakInterval = setInterval(() => this.setState({ breakTime: this.state.breakTime - 1 }), 1000);
+      this.breakInterval = setInterval(() => this.setState({ breakTime: this.state.breakTime - 1 }), .25);
     }
   }
 
@@ -60,6 +66,10 @@ class Timer extends Component {
     this.setState({ working: false, onBreak: true });
     this.state.workSessionCount < 4 ? this.setState({ workSessionCount: workSessionCount + 1, onLongBreak: false }) : this.setState({ workSessionCount: 1, onLongBreak: true });
     this.breakCountdown(this.state.breakTime);
+  }
+
+  play() {
+    this.sound.play();
   }
 
   render() {
