@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
 import './timer.css';
 import buzz from 'buzz';
-import './Ding.wav';
 
 class Timer extends Component {
   constructor(props) {
     super(props);
     this.state = { workTime: 1500, breakTime: 300, onBreak: false, onLongBreak: false, working: false, workSessionCount: 1 };
-    this.sound = new buzz.sound('./Ding.wav', { preload: true });
-    this.sound.setVolume(100);
+    this.sound = new buzz.sound('assets/audio/bell.wav', { volume: 100, preload: true });
     this.play = this.play.bind(this);
   }
 
@@ -22,9 +20,10 @@ class Timer extends Component {
       this.stopWorkCountdown();
     }
     if (this.state.breakTime === 1) {
-      this.sound.play();
+
       this.stopBreakCountdown();
       this.resetWorkCountdown();
+      this.sound.play();
     }
   }
 
@@ -71,6 +70,8 @@ class Timer extends Component {
   play() {
     this.sound.play();
   }
+
+
 
   render() {
     return(
