@@ -29,7 +29,7 @@ class Timer extends Component {
 
   workCountdown(workTime) {
     if (this.state.workTime > 0) {
-      this.workInterval = setInterval(() => this.setState({ workTime: this.state.workTime - 1 }), .25);
+      this.workInterval = setInterval(() => this.setState({ workTime: this.state.workTime - 1 }), 1);
     }
   }
 
@@ -44,7 +44,7 @@ class Timer extends Component {
 
   breakCountdown(breakTime) {
     if (this.state.breakTime > 0) {
-      this.breakInterval = setInterval(() => this.setState({ breakTime: this.state.breakTime - 1 }), .25);
+      this.breakInterval = setInterval(() => this.setState({ breakTime: this.state.breakTime - 1 }), 1);
     }
   }
 
