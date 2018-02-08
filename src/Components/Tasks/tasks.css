@@ -1,0 +1,36 @@
+.tasks {
+  background-color: #1a1a1a;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: top;
+  color: white;
+  box-shadow: 0 0 10px #1a1a1a;
+}
+
+h3 {
+  padding-left: 1rem;
+  text-decoration: underline;
+}
+
+li {
+  padding-left: .5rem;
+}
+
+.task-form {
+  padding-left: 1rem;
+  padding-top: 1rem;
+}
+
+input,
+button {
+  margin-right: .5rem;
+}
+
+.task {
+  padding-left: 2.2rem;
+}
+
+.task:hover {
+  cursor: pointer;
+}

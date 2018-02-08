@@ -1,12 +1,14 @@
-body {
-  background-color: black;
-  background: linear-gradient(#0f0c29, #302b63, #24243e);
-  background-repeat: no-repeat;
+.timer {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   color: white;
+  margin: 0 auto;
+}
+
+.timer {
+  text-align: center;
 }
 
 .time-display {
