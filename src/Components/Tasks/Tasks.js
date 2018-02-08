@@ -24,8 +24,9 @@ class Tasks extends Component {
   }
 
   createTask(event) {
+    const date =  new Date();
     event.preventDefault();
-    this.tasksRef.push({ task: this.state.newTask });
+    this.tasksRef.push({ task: this.state.newTask, timeAdded: this.props.firebase.database.ServerValue.TIMESTAMP });
     this.setState({ newTask: '' });
   }
 
@@ -36,7 +37,7 @@ class Tasks extends Component {
           <input type="text" value={this.state.newTask} placeholder="enter new task" onChange={this.handleChange}/>
           <button type="submit">Enter</button>
         </form>
-        {this.state.tasks.map(task =>
+        {this.state.tasks.sort((a, b) => b.timeAdded > a.timeAdded).map(task =>
           <div className="task">
             <h5 key={task.key}>{task.task}</h5>
           </div>
