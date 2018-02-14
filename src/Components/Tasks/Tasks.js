@@ -24,9 +24,13 @@ class Tasks extends Component {
   }
 
   createTask(newTask) {
-    this.setState({ task: newTask });
     this.tasksRef.push({ task: this.state.newTask, timeAdded: this.props.firebase.database.ServerValue.TIMESTAMP });
     this.setState({ newTask: '' });
+  }
+
+  removeTask(task) {
+    this.tasksRef.child(task.key).remove();
+    this.setState({ clickedTask: task, tasks: this.state.tasks.filter( task => task.key !== this.state.clickedTask.key )});
   }
 
   render() {
@@ -34,12 +38,13 @@ class Tasks extends Component {
       <div className="tasks">
         <h3>Completed Tasks</h3>
         <form className="task-form" onSubmit={() => this.createTask(this.state.newTask)}>
-          <input type="text" value={this.state.newTask} placeholder="enter new task" onChange={this.handleChange}/>
+          <input type="text" value={this.state.newTask} placeholder="enter new task" maxlength="50"onChange={this.handleChange}/>
           <button type="submit">Enter</button>
         </form>
+        <h6>Double click a task below to delete.</h6>
         {this.state.tasks.sort((a, b) => b.timeAdded > a.timeAdded).map(task =>
           <ul className="task">
-            <li key={task.key}>{task.task}</li>
+            <li key={task.key} onClick={() => this.removeTask(task)}>{task.task}</li>
           </ul>
         )}
       </div>

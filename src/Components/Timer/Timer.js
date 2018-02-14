@@ -5,7 +5,7 @@ import buzz from 'buzz';
 class Timer extends Component {
   constructor(props) {
     super(props);
-    this.state = { workTime: 1500, breakTime: 300, onBreak: false, working: false, workSessionCount: 1 };
+    this.state = { workTime: 1500, breakTime: 300, onBreak: false, working: false, isPaused: false, workSessionCount: 1 };
     this.sound = new buzz.sound('assets/audio/bell.wav', { volume: 100, preload: true });
     this.play = this.play.bind(this);
   }
@@ -37,9 +37,21 @@ class Timer extends Component {
     clearInterval(this.workInterval);
   }
 
+  pauseWorkCountdown() {
+    const pausedWorkTime = this.state.workTime;
+    this.setState({ isPaused: true });
+    clearInterval(this.workInterval);
+    this.setState({ workTime: pausedWorkTime });
+  }
+
+  resumeWorkCountdown() {
+    this.setState({ isPaused: false });
+    this.workCountdown(this.state.workTime);
+  }
+
   resetWorkCountdown() {
     this.stopWorkCountdown();
-    this.setState({ workTime: 1500 });
+    this.setState({ workTime: 1500, isPaused: false });
   }
 
   breakCountdown(breakTime) {
@@ -78,8 +90,11 @@ class Timer extends Component {
       <div className="timer">
         <h2>{this.state.onBreak ? 'Break' : 'Work Session'}</h2>
         <div className='time-display'>{ this.state.onBreak ? this.minutesAndSeconds(this.state.breakTime) : this.minutesAndSeconds(this.state.workTime) }</div>
+        <div className={this.state.workTime < 1500 && !this.state.onBreak && this.state.workTime > 0 ? 'start-stop-button' : 'no-show'}>
+          <button onClick={() => {!this.state.isPaused ? this.pauseWorkCountdown() : this.resumeWorkCountdown()}}>{this.state.isPaused ? 'Resume' : 'Pause'}</button>
+          <button onClick={() => this.resetWorkCountdown()}>Reset</button><br></br>
+        </div>
         <button className={this.state.workTime === 1500 ? 'start-stop-button': 'no-show'} onClick={() => {this.state.working ? this.workCountdown(this.state.workTime) : this.breakCountdown(this.state.breakTime)}}>Start</button>
-        <button className={this.state.workTime < 1500 && !this.state.onBreak ? 'start-stop-button' : 'no-show'} onClick={() => this.resetWorkCountdown()}>Reset</button><br></br>
         <div className={!this.state.onBreak && this.state.workTime === 0 ? 'break-div' : 'no-show'}>
           <p className='break-headline'>{this.state.workSessionCount === 4 ? 'You just finished 4 work sessions! Take a long break!' : 'You just finished a work session! Why not take a short break?'}</p>
           <button className='break-button' onClick={() => this.setupBreak()}>Take a Break</button>

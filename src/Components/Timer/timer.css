@@ -34,3 +34,10 @@ button:hover {
 .no-show {
   display: none;
 }
+
+@media (max-width: 500px) {
+  .timer {
+    min-height: 40vh;
+    margin: 3rem;
+  }
+}
