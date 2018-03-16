@@ -36,7 +36,7 @@ class Tasks extends Component {
   render() {
     return(
       <div className="tasks">
-        <h3>Completed Tasks</h3>
+        <h3>Tasks</h3>
         <form className="task-form" onSubmit={() => this.createTask(this.state.newTask)}>
           <input type="text" value={this.state.newTask} placeholder="enter new task" maxlength="50"onChange={this.handleChange}/>
           <button type="submit">Enter</button>
