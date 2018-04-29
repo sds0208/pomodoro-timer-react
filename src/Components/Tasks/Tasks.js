@@ -23,7 +23,8 @@ class Tasks extends Component {
     this.setState({ newTask: event.target.value });
   }
 
-  createTask(newTask) {
+  createTask(event) {
+    event.preventDefault();
     this.tasksRef.push({ task: this.state.newTask, timeAdded: this.props.firebase.database.ServerValue.TIMESTAMP });
     this.setState({ newTask: '' });
   }
@@ -37,7 +38,7 @@ class Tasks extends Component {
     return(
       <div className="tasks">
         <h3>Tasks</h3>
-        <form className="task-form" onSubmit={() => this.createTask(this.state.newTask)}>
+        <form className="task-form" onSubmit={this.createTask}>
           <input type="text" value={this.state.newTask} placeholder="enter new task" maxlength="50"onChange={this.handleChange}/>
           <button type="submit">Enter</button>
         </form>
